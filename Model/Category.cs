@@ -1,5 +1,10 @@
 
-class Category (int id, string name) : Entity (id)
+public class Category : Entity
 {
-    public string Name => name;
+    public string Name { get; set; } = "";
+
+    public override string ToString()
+    {
+        return Id + "\t" + Name;
+    }
 }

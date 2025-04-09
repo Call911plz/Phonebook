@@ -1,10 +1,28 @@
-﻿namespace Phonebook;
+﻿using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+
+namespace Phonebook;
 
 class Program
 {
-    static void Main(string[] args)
+    static async Task Main(string[] args)
     {
-        DisplayMenu.MainMenu();
+        using var db = new DatabaseContext();
+
+        // db.Add(new Contact 
+        // { 
+        //     Name = "Hieu Truong",
+        //     Email = "htruong6219@gmail.com",
+        //     PhoneNumber = "4086096219",
+        //     CategoryName = null,
+        // });
+
+        // await db.SaveChangesAsync();
+
+        DatabaseManager dbManager = new();
+        dbManager.ViewAllContacts();
+
+        
     }
 }
 
