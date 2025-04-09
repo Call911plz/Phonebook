@@ -7,7 +7,7 @@ class DatabaseManagerBase
     public virtual void CreateEntity() {}
 
     // Read
-    public virtual void ViewAllEntity() {}
+    public virtual List<Entity> GetAllEntity() { throw new NotImplementedException(); }
 
     // Update
     public virtual void UpdateEntity() {}

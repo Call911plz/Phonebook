@@ -2,6 +2,7 @@ using Twilio;
 using Twilio.Rest.Lookups.V2;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
+using Spectre.Console;
 
 class ContactController
 {
@@ -21,7 +22,7 @@ class ContactController
                 UpdateContactAsync();
                 break;
             case MenuEnums.Contact.READCONTACT:
-                ReadContactAsync();
+                ReadContact();
                 break;
             case MenuEnums.Contact.BACK:
                 break;
@@ -30,7 +31,9 @@ class ContactController
 
     private async Task AddContactAsync()
     {
+        AnsiConsole.MarkupLine("[bold grey]Enter contact's information. Information can be left blank [/]");
         Contact contact = GetData.Contact();
+        contact.ServiceProvider = await GetPhoneNumberCarrierAsync(contact.PhoneNumber);
         await contactDatabaseManager.CreateEntityAsync(contact);
     }
 
@@ -44,18 +47,19 @@ class ContactController
         throw new NotImplementedException();
     }
 
-    private void ReadContactAsync()
+    private void ReadContact()
     {
-        throw new NotImplementedException();
+        List<Contact> contacts = contactDatabaseManager.GetAllEntity();
+        DisplayData.ContactTable(contacts);
     }
 
-    static async Task<string?> GetPhoneNumberCarrier(string number)
+    static async Task<string?> GetPhoneNumberCarrierAsync(string? number)
     {
         // Accessing phone carrier api
         TwilioClient.Init("", "");
         var phoneNumber = await PhoneNumberResource.FetchAsync
         (
-            pathPhoneNumber: "4086096219", 
+            pathPhoneNumber: number, 
             fields: "line_type_intelligence"
         );
 

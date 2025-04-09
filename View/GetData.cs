@@ -36,10 +36,9 @@ public static class GetData
         ); 
     }
 
-    // TODO: validate is lambda and does not properly return the parsed number
     static string? ContactPhoneNumber() 
     {
-        return AnsiConsole.Prompt(
+        var userInput = AnsiConsole.Prompt(
             new TextPrompt<string?>("[bold grey]Enter contact's phone number (###)-###-####:[/]")
                 .AllowEmpty()
                 .Validate( (number) => {
@@ -49,7 +48,9 @@ public static class GetData
                         return ValidationResult.Error("[bold red]Invalid number[/]");
                     return ValidationResult.Success();
                 })
-        ); 
+        );
+        _ = TryParsePhoneNumber(userInput, out userInput);
+        return userInput;
     }
 
     static bool TryParsePhoneNumber(string number, out string result)

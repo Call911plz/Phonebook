@@ -4,23 +4,10 @@ class Program
 {
     static async Task Main(string[] args)
     {
-        using var db = new DatabaseContext();
-
-        // db.Add(new Contact 
-        // { 
-        //     Name = "Hieu Truong",
-        //     Email = "htruong6219@gmail.com",
-        //     PhoneNumber = "4086096219",
-        //     CategoryName = null,
-        // });
-
-        // await db.SaveChangesAsync();
-
         // ContactDatabaseManager contactDatabaseManager = new();
         // contactDatabaseManager.ViewAllEntity();
-        
-        var fuck = GetData.Contact();
-        Console.WriteLine(fuck);
+        ContactController contactController = new();
+        await contactController.StartAsync();
     }
 }
 

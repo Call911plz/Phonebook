@@ -8,14 +8,10 @@ class ContactDatabaseManager : DatabaseManagerBase
         await db.SaveChangesAsync();
     }
 
-    public override void ViewAllEntity()
+    public new List<Contact> GetAllEntity()
     {
         using var db = new DatabaseContext();
-
-        foreach(Contact contact in db.Contacts)
-        {
-            Console.WriteLine(contact);
-        }
+        return db.Contacts.ToList();
     }
 
     public override void UpdateEntity()

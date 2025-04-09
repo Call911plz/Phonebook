@@ -6,7 +6,7 @@ class CategoryDatabaseManager : DatabaseManagerBase
         base.CreateEntity();
     }
     
-    public override void ViewAllEntity()
+    public new void GetAllEntity() // TODO: update this
     {
         using var db = new DatabaseContext();
 
