@@ -3,29 +3,35 @@ using Spectre.Console;
 
 public static class GetData
 {
-    public static Contact Contact()
+    public static Contact NewContact(Contact? existingContact = null)
     {
+        existingContact ??= Contact.Default;
+
         Contact contact = new()
         {
-            Name = ContactName(),
-            Email = ContactEmail(),
-            PhoneNumber = ContactPhoneNumber(),
-            CategoryName = ContactCategory(),
+            Id = existingContact.Id, // will already be default if not set 
+            Name = ContactName(existingContact.Name),
+            Email = ContactEmail(existingContact.Email),
+            PhoneNumber = ContactPhoneNumber(existingContact.PhoneNumber),
+            ServiceProvider = existingContact.ServiceProvider ?? null,
+            CategoryName = ContactCategory(existingContact.CategoryName),
         };
         return contact;
     }
-    static string? ContactName() 
+    static string? ContactName(string? existingName = null) 
     { 
         return AnsiConsole.Prompt(
             new TextPrompt<string?>("[bold grey]Enter contact's name:[/]")
                 .AllowEmpty()
+                .DefaultValue(existingName)
         ); 
     }
-    static string? ContactEmail() 
+    static string? ContactEmail(string? existingEmail = null) 
     { 
         return AnsiConsole.Prompt(
             new TextPrompt<string?>("[bold grey]Enter contact's email:[/]")
                 .AllowEmpty()
+                .DefaultValue(existingEmail)
                 .Validate( (email) => {
                     if (email == null)
                         return ValidationResult.Success();
@@ -35,12 +41,12 @@ public static class GetData
                 })
         ); 
     }
-
-    static string? ContactPhoneNumber() 
+    static string? ContactPhoneNumber(string? existingPhoneNumber = null) 
     {
         var userInput = AnsiConsole.Prompt(
             new TextPrompt<string?>("[bold grey]Enter contact's phone number (###)-###-####:[/]")
                 .AllowEmpty()
+                .DefaultValue(existingPhoneNumber)
                 .Validate( (number) => {
                     if (number == null)
                         return ValidationResult.Success();
@@ -52,7 +58,6 @@ public static class GetData
         _ = TryParsePhoneNumber(userInput, out userInput);
         return userInput;
     }
-
     static bool TryParsePhoneNumber(string number, out string result)
     {
         result = "";
@@ -73,10 +78,18 @@ public static class GetData
         
         return true;
     }
-
-    static string? ContactCategory() 
+    static string? ContactCategory(string? existingName = null) 
     { 
         // TODO: implement selection/multi-selection when category implemented
         return null; 
+    }
+
+    public static Contact ContactFromList(List<Contact> contacts)
+    {
+        TextPrompt<int> textPrompt = new("[bold grey]Enter Id:[/]");
+        textPrompt.AddChoices(contacts.Select(c => c.Id).ToList());
+        textPrompt.ShowChoices(false);
+
+        return contacts[AnsiConsole.Prompt(textPrompt) - 1];
     }
 }

@@ -19,7 +19,7 @@ class ContactController
                 DeleteContactAsync();
                 break;
             case MenuEnums.Contact.UPDATECONTACT:
-                UpdateContactAsync();
+                await UpdateContactAsync();
                 break;
             case MenuEnums.Contact.READCONTACT:
                 ReadContact();
@@ -32,7 +32,7 @@ class ContactController
     private async Task AddContactAsync()
     {
         AnsiConsole.MarkupLine("[bold grey]Enter contact's information. Information can be left blank [/]");
-        Contact contact = GetData.Contact();
+        Contact contact = GetData.NewContact();
         contact.ServiceProvider = await GetPhoneNumberCarrierAsync(contact.PhoneNumber);
         await contactDatabaseManager.CreateEntityAsync(contact);
     }
@@ -42,9 +42,22 @@ class ContactController
         throw new NotImplementedException();
     }
 
-    private void UpdateContactAsync()
+    private async Task UpdateContactAsync()
     {
-        throw new NotImplementedException();
+        // Show old contacts
+        var oldContacts = contactDatabaseManager.GetAllEntity();
+        DisplayData.ContactTable(oldContacts);
+
+        // Selecting contact to update
+        Contact oldContact = GetData.ContactFromList(oldContacts);
+
+        // Updating contact with new information
+        Contact newContact = GetData.NewContact(oldContact);
+    
+        if (oldContact.PhoneNumber != newContact.PhoneNumber)
+            newContact.ServiceProvider = await GetPhoneNumberCarrierAsync(newContact.PhoneNumber);
+
+        await contactDatabaseManager.UpdateEntityAsync(newContact);
     }
 
     private void ReadContact()

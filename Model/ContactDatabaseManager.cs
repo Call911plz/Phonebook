@@ -1,4 +1,6 @@
 
+using Microsoft.EntityFrameworkCore;
+
 class ContactDatabaseManager : DatabaseManagerBase
 {
     public async Task CreateEntityAsync(Contact contact)
@@ -14,13 +16,25 @@ class ContactDatabaseManager : DatabaseManagerBase
         return db.Contacts.ToList();
     }
 
-    public override void UpdateEntity()
+    public async Task UpdateEntityAsync(Contact updatedContact)
     {
-        base.UpdateEntity();
+        using var db = new DatabaseContext();
+        
+        var contactFromDB = await db.Contacts
+            .Where(contact => contact.Id == updatedContact.Id)
+            .FirstAsync();
+        
+        contactFromDB.Name = updatedContact.Name;
+        contactFromDB.Email = updatedContact.Email;
+        contactFromDB.PhoneNumber = updatedContact.PhoneNumber;
+        contactFromDB.ServiceProvider = updatedContact.ServiceProvider;
+        contactFromDB.CategoryName = updatedContact.CategoryName;
+        
+        await db.SaveChangesAsync();
     }
 
-    public override void DeleteEntity()
+    public override Task DeleteEntityAsync()
     {
-        base.DeleteEntity();
+        return base.DeleteEntityAsync();
     }
 }

@@ -11,4 +11,14 @@ public class Contact : Entity
     {
         return Id + "\t" + Name + "\t" + Email + "\t" + PhoneNumber + "\t" + ServiceProvider + "\t" + CategoryName;
     }
+
+    public static Contact Default => new Contact 
+    {
+        Id = default,
+        Name = null,
+        Email = null,
+        PhoneNumber = null,
+        ServiceProvider = null,
+        CategoryName = null,
+    };
 }

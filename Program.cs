@@ -4,10 +4,29 @@ class Program
 {
     static async Task Main(string[] args)
     {
+        // // Model testing
         // ContactDatabaseManager contactDatabaseManager = new();
-        // contactDatabaseManager.ViewAllEntity();
+
+        // // Show old contacts
+        // var oldContacts = contactDatabaseManager.GetAllEntity();
+        // DisplayData.ContactTable(oldContacts);
+
+        // // Selecting contact to update
+        // Contact oldContact = GetData.ContactFromList(oldContacts);
+
+        // // Updating contact with new information
+        // Contact newContact = GetData.NewContact(oldContact);
+
+        // await contactDatabaseManager.UpdateEntityAsync(newContact);
+
+        // var shit = contactDatabaseManager.GetAllEntity();
+        // DisplayData.ContactTable(shit);
+
+        // Controller testing
         ContactController contactController = new();
         await contactController.StartAsync();
+
+        //// View testing
     }
 }
 

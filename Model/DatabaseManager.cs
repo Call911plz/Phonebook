@@ -4,14 +4,14 @@ using System.Reflection;
 class DatabaseManagerBase
 {
     // Create
-    public virtual void CreateEntity() {}
+    public virtual Task CreateEntityAsync() { return Task.CompletedTask; }
 
     // Read
     public virtual List<Entity> GetAllEntity() { throw new NotImplementedException(); }
 
     // Update
-    public virtual void UpdateEntity() {}
+    public virtual Task UpdateEntityAsync() { return Task.CompletedTask; }
 
     // Delete
-    public virtual void DeleteEntity() {}
+    public virtual Task DeleteEntityAsync() { return Task.CompletedTask; }
 }
