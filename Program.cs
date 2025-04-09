@@ -19,10 +19,10 @@ class Program
 
         // await db.SaveChangesAsync();
 
-        DatabaseManager dbManager = new();
-        dbManager.ViewAllContacts();
+        ContactDatabaseManager contactDatabaseManager = new();
+        contactDatabaseManager.ViewAllEntity();
 
-        
+
     }
 }
 

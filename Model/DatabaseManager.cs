@@ -1,32 +1,17 @@
 
 using System.Reflection;
 
-class DatabaseManager
+class DatabaseManagerBase
 {
     // Create
+    public virtual void CreateEntity() {}
 
     // Read
-    public void ViewAllContacts()
-    {
-        using var db = new DatabaseContext();
-
-        foreach(Contact contact in db.Contacts)
-        {
-            Console.WriteLine(contact);
-        }
-    }
-
-    public void ViewAllCategory()
-    {
-        using var db = new DatabaseContext();
-
-        foreach(Category category in db.Categories)
-        {
-            Console.WriteLine(category);
-        }
-    }
+    public virtual void ViewAllEntity() {}
 
     // Update
+    public virtual void UpdateEntity() {}
 
     // Delete
+    public virtual void DeleteEntity() {}
 }
