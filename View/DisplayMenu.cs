@@ -35,7 +35,7 @@ static class DisplayMenu
                         MenuEnums.Contact.ADDCONTACT => "Add contact",
                         MenuEnums.Contact.DELETECONTACT => "Delete contact",
                         MenuEnums.Contact.UPDATECONTACT => "Update contact",
-                        MenuEnums.Contact.READCONTACT => "Read contact",
+                        MenuEnums.Contact.READCONTACT => "View all contact",
                         MenuEnums.Contact.BACK => "Back",
                         _ => input.ToString() // Will be an error.
                     };
@@ -55,7 +55,7 @@ static class DisplayMenu
                         MenuEnums.Category.ADDCATEGORY => "Add category",
                         MenuEnums.Category.DELETECATEGORY => "Delete category",
                         MenuEnums.Category.UPDATECATEGORY => "Update category",
-                        MenuEnums.Category.READCATEGORY => "Read category",
+                        MenuEnums.Category.READCATEGORY => "View all category",
                         MenuEnums.Category.BACK => "Back",
                         _ => input.ToString() // Will be an error.
                     };

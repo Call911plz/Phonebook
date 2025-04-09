@@ -1,9 +1,11 @@
 
 class ContactDatabaseManager : DatabaseManagerBase
 {
-    public override void CreateEntity()
+    public async Task CreateEntityAsync(Contact contact)
     {
-        base.CreateEntity();
+        using var db = new DatabaseContext();
+        db.Add(contact);
+        await db.SaveChangesAsync();
     }
 
     public override void ViewAllEntity()

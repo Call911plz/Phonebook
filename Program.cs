@@ -1,9 +1,4 @@
-﻿using Twilio;
-using Twilio.Rest.Lookups.V2;
-using Newtonsoft.Json;
-
-
-namespace Phonebook;
+﻿namespace Phonebook;
 
 class Program
 {
@@ -23,36 +18,9 @@ class Program
 
         // ContactDatabaseManager contactDatabaseManager = new();
         // contactDatabaseManager.ViewAllEntity();
-
-        var fuck = await GetPhoneNumberCarrier("6692319539");
+        
+        var fuck = GetData.Contact();
         Console.WriteLine(fuck);
-    }
-
-    static async Task<string?> GetPhoneNumberCarrier(string number)
-    {
-        // Accessing phone carrier api
-        TwilioClient.Init("", "");
-        var phoneNumber = await PhoneNumberResource.FetchAsync
-        (
-            pathPhoneNumber: "4086096219", 
-            fields: "line_type_intelligence"
-        );
-
-        // Getting and checking for if carrier exists
-        var obj = phoneNumber.LineTypeIntelligence;
-        var objSeralizedJson = JsonConvert.SerializeObject(obj);
-        var objDict = JsonConvert.DeserializeObject<Dictionary<string, string>>(objSeralizedJson);
-
-        if (objDict == null)
-        {
-            Console.WriteLine("Does not contain LineTypeIntelligence");
-            return null;
-        }
-        if (objDict.TryGetValue("carrier_name", out var name))
-            return name;
-
-        Console.WriteLine("Unknown error in get phone number carrier");
-        return null;
     }
 }
 
