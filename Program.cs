@@ -11,13 +11,11 @@ class Program
         // var oldContacts = contactDatabaseManager.GetAllEntity();
         // DisplayData.ContactTable(oldContacts);
 
-        // // Selecting contact to update
-        // Contact oldContact = GetData.ContactFromList(oldContacts);
+        // // Selecting contact to delete
+        // Contact contactToDelete = GetData.ContactFromList(oldContacts);
 
-        // // Updating contact with new information
-        // Contact newContact = GetData.NewContact(oldContact);
-
-        // await contactDatabaseManager.UpdateEntityAsync(newContact);
+        // // Send to DBManager to delete
+        // await contactDatabaseManager.DeleteEntityAsync(contactToDelete);
 
         // var shit = contactDatabaseManager.GetAllEntity();
         // DisplayData.ContactTable(shit);

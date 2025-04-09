@@ -33,8 +33,16 @@ class ContactDatabaseManager : DatabaseManagerBase
         await db.SaveChangesAsync();
     }
 
-    public override Task DeleteEntityAsync()
+    public async Task DeleteEntityAsync(Contact contactToDelete)
     {
-        return base.DeleteEntityAsync();
+        using var db = new DatabaseContext();
+
+        var contactFromDB = await db.Contacts
+            .Where(contact => contact.Id == contactToDelete.Id)
+            .FirstAsync();
+        
+        db.Remove(contactFromDB);
+
+        await db.SaveChangesAsync();
     }
 }

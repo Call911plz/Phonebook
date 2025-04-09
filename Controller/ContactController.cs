@@ -16,7 +16,7 @@ class ContactController : ControllerBase
                 await AddContactAsync();
                 break;
             case MenuEnums.Contact.DELETECONTACT:
-                DeleteContactAsync();
+                await DeleteContactAsync();
                 break;
             case MenuEnums.Contact.UPDATECONTACT:
                 await UpdateContactAsync();
@@ -39,9 +39,17 @@ class ContactController : ControllerBase
         await contactDatabaseManager.CreateEntityAsync(contact);
     }
 
-    private void DeleteContactAsync()
+    private async Task DeleteContactAsync()
     {
-        
+        // Show old contacts
+        var oldContacts = contactDatabaseManager.GetAllEntity();
+        DisplayData.ContactTable(oldContacts);
+
+        // Selecting contact to delete
+        Contact contactToDelete = GetData.ContactFromList(oldContacts);
+
+        // Send to DBManager to delete
+        await contactDatabaseManager.DeleteEntityAsync(contactToDelete);
     }
 
     private async Task UpdateContactAsync()
@@ -55,10 +63,10 @@ class ContactController : ControllerBase
 
         // Updating contact with new information
         Contact newContact = GetData.NewContact(oldContact);
-    
         if (oldContact.PhoneNumber != newContact.PhoneNumber)
             newContact.ServiceProvider = await GetPhoneNumberCarrierAsync(newContact.PhoneNumber);
 
+        // Send to DBManager to update
         await contactDatabaseManager.UpdateEntityAsync(newContact);
     }
 
