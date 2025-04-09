@@ -8,15 +8,15 @@ static class DisplayData
         Table table = new();
         
         table.AddColumns(["Id", "Name", "Email", "Phone Number", "Service Provider", "Category"]);
-        foreach (Contact contact in contacts)
+        for (int i = 0; i < contacts.Count; i++)
         {
             table.AddRow([
-                contact.Id.ToString(), 
-                contact.Name ?? "", 
-                contact.Email ?? "",
-                contact.PhoneNumber ?? "",
-                contact.ServiceProvider ?? "",
-                contact.CategoryName ?? "",
+                (i + 1).ToString(), 
+                contacts[i].Name ?? "", 
+                contacts[i].Email ?? "",
+                contacts[i].PhoneNumber ?? "",
+                contacts[i].ServiceProvider ?? "",
+                contacts[i].CategoryName ?? "",
             ]);
         }
 
