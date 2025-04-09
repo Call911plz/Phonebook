@@ -1,6 +1,6 @@
-﻿using RestSharp;
-using RestSharp.Authenticators;
-using System.Text.Json;
+﻿using Twilio;
+using Twilio.Rest.Lookups.V2;
+using Newtonsoft.Json;
 
 
 namespace Phonebook;
@@ -30,36 +30,28 @@ class Program
 
     static async Task<string?> GetPhoneNumberCarrier(string number)
     {
-        // Calling from api
-        var options = new RestClientOptions("https://lookups.twilio.com/v2/PhoneNumbers/") 
+        // Accessing phone carrier api
+        TwilioClient.Init("", "");
+        var phoneNumber = await PhoneNumberResource.FetchAsync
+        (
+            pathPhoneNumber: "4086096219", 
+            fields: "line_type_intelligence"
+        );
+
+        // Getting and checking for if carrier exists
+        var obj = phoneNumber.LineTypeIntelligence;
+        var objSeralizedJson = JsonConvert.SerializeObject(obj);
+        var objDict = JsonConvert.DeserializeObject<Dictionary<string, string>>(objSeralizedJson);
+
+        if (objDict == null)
         {
-            Authenticator = new HttpBasicAuthenticator(
-                "", 
-                ""
-            )
-        };
-        var client = new RestClient(options);
-        var request = new RestRequest($"{number}?Fields=line_type_intelligence", Method.Get);
-        request.AddParameter("Field", "line_type_intelligence");
-        var response = await client.ExecuteAsync(request);
-
-
-        // Extracting line's carrier from api call's data
-        if (response.IsSuccessful)
-        {
-            using var doc = JsonDocument.Parse(response.Content);
-            var root = doc.RootElement;
-
-            if (root.TryGetProperty("line_type_intelligence", out var lineTypeInfo))
-                return lineTypeInfo.GetProperty("carrier_name").ToString();
-            else
-                Console.WriteLine("line_type_intelligence not found in the response.");
+            Console.WriteLine("Does not contain LineTypeIntelligence");
+            return null;
         }
-        else
-        {
-            Console.WriteLine($"Request failed: {response.StatusCode}");
-            Console.WriteLine(response.Content);
-        }
+        if (objDict.TryGetValue("carrier_name", out var name))
+            return name;
+
+        Console.WriteLine("Unknown error in get phone number carrier");
         return null;
     }
 }
