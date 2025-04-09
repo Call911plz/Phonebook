@@ -4,10 +4,10 @@ using Newtonsoft.Json;
 using System.Threading.Tasks;
 using Spectre.Console;
 
-class ContactController
+class ContactController : ControllerBase
 {
     ContactDatabaseManager contactDatabaseManager = new();
-    public async Task StartAsync()
+    protected override async Task<bool> HandleUserInput()
     {
         MenuEnums.Contact userInput = DisplayMenu.Contact();
         switch (userInput)
@@ -25,8 +25,10 @@ class ContactController
                 ReadContact();
                 break;
             case MenuEnums.Contact.BACK:
-                break;
+                return true;
         }
+
+        return false;
     }
 
     private async Task AddContactAsync()
@@ -39,7 +41,7 @@ class ContactController
 
     private void DeleteContactAsync()
     {
-        throw new NotImplementedException();
+        
     }
 
     private async Task UpdateContactAsync()
