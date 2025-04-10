@@ -92,4 +92,32 @@ public static class GetData
 
         return contacts[AnsiConsole.Prompt(textPrompt) - 1];
     }
+
+    public static Category NewCategory(Category? existingCategory = null)
+    {
+        existingCategory ??= new Category();
+
+        Category category = new()
+        {
+            Id = existingCategory.Id,
+            Name = CategoryName(existingCategory.Name),
+        };
+        return category;
+    }
+    static string CategoryName(string existingName = "") 
+    { 
+        return AnsiConsole.Prompt(
+            new TextPrompt<string>("[bold grey]Enter category's name:[/]")
+                .DefaultValue(existingName)
+        ); 
+    }
+
+    public static Category CategoryFromList(List<Category> categories)
+    {
+        TextPrompt<int> textPrompt = new("[bold grey]Enter Id:[/]");
+        textPrompt.AddChoices(categories.Select(c => c.Id).ToList());
+        textPrompt.ShowChoices(false);
+
+        return categories[AnsiConsole.Prompt(textPrompt) - 1];
+    }
 }

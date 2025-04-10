@@ -22,4 +22,20 @@ static class DisplayData
 
         AnsiConsole.Write(table);
     }
+
+    public static void CategoryTable(List<Category> categories)
+    {
+        Table table = new();
+
+        table.AddColumns(["Id", "Name"]);
+        for (int i = 0; i < categories.Count; i++)
+        {
+            table.AddRow([
+                (i + 1).ToString(),
+                categories[i].Name
+            ]);
+        }
+
+        AnsiConsole.Write(table);
+    }
 }

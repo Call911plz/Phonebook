@@ -4,25 +4,34 @@ class Program
 {
     static async Task Main(string[] args)
     {
-        // // Model testing
-        // ContactDatabaseManager contactDatabaseManager = new();
+        // Model testing
+        CategoryDatabaseManager categoryDatabaseManager = new();
 
-        // // Show old contacts
-        // var oldContacts = contactDatabaseManager.GetAllEntity();
-        // DisplayData.ContactTable(oldContacts);
+        // Create
+        Category category = GetData.NewCategory();
+        await categoryDatabaseManager.CreateEntityAsync(category);
 
-        // // Selecting contact to delete
-        // Contact contactToDelete = GetData.ContactFromList(oldContacts);
+        // Read
+        List<Category> categories= categoryDatabaseManager.GetAllEntity();
+        DisplayData.CategoryTable(categories);
 
-        // // Send to DBManager to delete
-        // await contactDatabaseManager.DeleteEntityAsync(contactToDelete);
+        // Update
+        Category categoryToUpdate = GetData.CategoryFromList(categories);
+        Category updatedCategory = GetData.NewCategory(categoryToUpdate);
+        await categoryDatabaseManager.UpdateEntityAsync(updatedCategory);
 
-        // var shit = contactDatabaseManager.GetAllEntity();
-        // DisplayData.ContactTable(shit);
+        categories= categoryDatabaseManager.GetAllEntity();
+        DisplayData.CategoryTable(categories);
+        // Delete
+        Category categoryToDelete = GetData.CategoryFromList(categories);
+        await categoryDatabaseManager.DeleteEntityAsync(categoryToDelete);
+
+        categories= categoryDatabaseManager.GetAllEntity();
+        DisplayData.CategoryTable(categories);
 
         // Controller testing
-        ContactController contactController = new();
-        await contactController.StartAsync();
+        // ContactController contactController = new();
+        // await contactController.StartAsync();
 
         //// View testing
     }
