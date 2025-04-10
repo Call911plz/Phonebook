@@ -49,7 +49,7 @@ class CategoryController : ControllerBase
         DisplayData.CategoryTable(categories);
 
         // Select Id of category to update
-        Category categoryToUpdate = GetData.CategoryFromList(categories);
+        Category categoryToUpdate = GetData.EntityFromList(categories);
 
         // Update category information
         Category updatedCategory = GetData.NewCategory(categoryToUpdate);
@@ -66,7 +66,7 @@ class CategoryController : ControllerBase
         DisplayData.CategoryTable(categories);
 
         // Select Id of category to delete
-        Category categoryToDelete = GetData.CategoryFromList(categories);
+        Category categoryToDelete = GetData.EntityFromList(categories);
 
         // Delete category with ef
         await categoryDatabaseManager.DeleteEntityAsync(categoryToDelete);

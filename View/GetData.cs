@@ -84,14 +84,6 @@ public static class GetData
         return null; 
     }
 
-    public static Contact ContactFromList(List<Contact> contacts)
-    {
-        TextPrompt<int> textPrompt = new("[bold grey]Enter Id:[/]");
-        textPrompt.AddChoices(contacts.Select(c => c.Id).ToList());
-        textPrompt.ShowChoices(false);
-
-        return contacts[AnsiConsole.Prompt(textPrompt) - 1];
-    }
 
     public static Category NewCategory(Category? existingCategory = null)
     {
@@ -112,12 +104,13 @@ public static class GetData
         ); 
     }
 
-    public static Category CategoryFromList(List<Category> categories)
+
+    public static T EntityFromList<T>(List<T> entities) where T : Entity 
     {
         TextPrompt<int> textPrompt = new("[bold grey]Enter Id:[/]");
-        textPrompt.AddChoices(categories.Select(c => c.Id).ToList());
+        textPrompt.AddChoices(Enumerable.Range(1, entities.Count).ToList());
         textPrompt.ShowChoices(false);
 
-        return categories[AnsiConsole.Prompt(textPrompt) - 1];
+        return entities[AnsiConsole.Prompt(textPrompt) - 1];
     }
 }

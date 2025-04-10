@@ -46,7 +46,7 @@ class ContactController : ControllerBase
         DisplayData.ContactTable(oldContacts);
 
         // Selecting contact to delete
-        Contact contactToDelete = GetData.ContactFromList(oldContacts);
+        Contact contactToDelete = GetData.EntityFromList(oldContacts);
 
         // Send to DBManager to delete
         await contactDatabaseManager.DeleteEntityAsync(contactToDelete);
@@ -59,7 +59,7 @@ class ContactController : ControllerBase
         DisplayData.ContactTable(oldContacts);
 
         // Selecting contact to update
-        Contact oldContact = GetData.ContactFromList(oldContacts);
+        Contact oldContact = GetData.EntityFromList(oldContacts);
 
         // Updating contact with new information
         Contact newContact = GetData.NewContact(oldContact);
