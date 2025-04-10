@@ -4,14 +4,8 @@ class Program
 {
     static async Task Main(string[] args)
     {
-        // // Model testing
-        // CategoryDatabaseManager categoryDatabaseManager = new();
-
-        // Controller testing
-        CategoryController categoryController = new();
-        await categoryController.StartAsync();
-
-        //// View testing
+        MainMenuController mainMenuController = new();
+        await mainMenuController.StartAsync();
     }
 }
 
