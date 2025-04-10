@@ -4,34 +4,12 @@ class Program
 {
     static async Task Main(string[] args)
     {
-        // Model testing
-        CategoryDatabaseManager categoryDatabaseManager = new();
-
-        // Create
-        Category category = GetData.NewCategory();
-        await categoryDatabaseManager.CreateEntityAsync(category);
-
-        // Read
-        List<Category> categories= categoryDatabaseManager.GetAllEntity();
-        DisplayData.CategoryTable(categories);
-
-        // Update
-        Category categoryToUpdate = GetData.CategoryFromList(categories);
-        Category updatedCategory = GetData.NewCategory(categoryToUpdate);
-        await categoryDatabaseManager.UpdateEntityAsync(updatedCategory);
-
-        categories= categoryDatabaseManager.GetAllEntity();
-        DisplayData.CategoryTable(categories);
-        // Delete
-        Category categoryToDelete = GetData.CategoryFromList(categories);
-        await categoryDatabaseManager.DeleteEntityAsync(categoryToDelete);
-
-        categories= categoryDatabaseManager.GetAllEntity();
-        DisplayData.CategoryTable(categories);
+        // // Model testing
+        // CategoryDatabaseManager categoryDatabaseManager = new();
 
         // Controller testing
-        // ContactController contactController = new();
-        // await contactController.StartAsync();
+        CategoryController categoryController = new();
+        await categoryController.StartAsync();
 
         //// View testing
     }
