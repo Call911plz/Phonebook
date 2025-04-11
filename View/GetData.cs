@@ -9,7 +9,7 @@ public static class GetData
 
         Contact contact = new()
         {
-            Id = existingContact.Id, // will already be default if not set 
+            Id = existingContact.Id, // will already be default if existingContact is not set 
             Name = ContactName(existingContact.Name),
             Email = ContactEmail(existingContact.Email),
             PhoneNumber = ContactPhoneNumber(existingContact.PhoneNumber),
@@ -28,7 +28,7 @@ public static class GetData
     }
     static string? ContactEmail(string? existingEmail = null) 
     { 
-        return AnsiConsole.Prompt(
+        string? unparsedEmail = AnsiConsole.Prompt(
             new TextPrompt<string?>("[bold grey]Enter contact's email:[/]")
                 .AllowEmpty()
                 .DefaultValue(existingEmail)
@@ -40,6 +40,11 @@ public static class GetData
                     return ValidationResult.Success();
                 })
         ); 
+        if (unparsedEmail == null)
+            return null;
+        if (!MailAddress.TryCreate(unparsedEmail, out var parsedEmail))
+            return parsedEmail.ToString();
+        return null;
     }
     static string? ContactPhoneNumber(string? existingPhoneNumber = null) 
     {
@@ -104,6 +109,55 @@ public static class GetData
         ); 
     }
 
+
+    public static UserData NewUserData(UserData? existingUserData = null)
+    {
+        existingUserData ??= new UserData();
+
+        UserData userData = new()
+        {
+            Id = existingUserData.Id,
+            DisplayName = UserDataDisplayName(existingUserData.DisplayName),
+            Email = UserDataEmail(existingUserData.Email),
+            EmailPassword = UserDataEmailPassword(existingUserData.EmailPassword),
+        };
+
+        return userData;
+    }
+    
+    private static string UserDataDisplayName(string existingName = "")
+    {
+        return AnsiConsole.Prompt(
+            new TextPrompt<string>("[bold grey]Enter a display name:[/]")
+                .DefaultValue(existingName)
+        ); 
+    }
+
+    private static string UserDataEmail(string existingEmail = "")
+    {
+        string? unparsedEmail = AnsiConsole.Prompt(
+            new TextPrompt<string?>("[bold grey]Enter your email (currently only accepting gmail):[/]")
+                .AllowEmpty()
+                .DefaultValue(existingEmail)
+                .Validate( (email) => {
+                    if (!MailAddress.TryCreate(email, out var i))
+                        return ValidationResult.Error("[bold red]Invalid email[/]");
+                    if (!email.Contains("@gmail.com"))
+                        return ValidationResult.Error("[bold red]Invalid email. Use gmail[/]");
+                    return ValidationResult.Success();
+                })
+        ); 
+        MailAddress.TryCreate(unparsedEmail, out var parsedEmail);
+        return parsedEmail.ToString();
+    }
+
+    private static string UserDataEmailPassword(string existingPassword = "")
+    {
+        return AnsiConsole.Prompt(
+            new TextPrompt<string>("[bold grey]Enter a your email's password:[/]")
+                .DefaultValue(existingPassword)
+        ); 
+    }
 
     public static T EntityFromList<T>(List<T> entities) where T : Entity 
     {
