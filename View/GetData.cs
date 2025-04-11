@@ -167,4 +167,17 @@ public static class GetData
 
         return entities[AnsiConsole.Prompt(textPrompt) - 1];
     }
+
+    public static T EntityFromSelection<T>(List<T> entities) where T : Entity
+    {
+        SelectionPrompt<T> prompt = new();
+        prompt.Title("[bold grey]Select[/]");
+        prompt.AddChoices(entities);
+        prompt.UseConverter( userInput => {
+            return userInput.ToString() ?? "";
+        });
+        return AnsiConsole.Prompt(
+            prompt
+        );
+    }
 }

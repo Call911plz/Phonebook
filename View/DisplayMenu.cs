@@ -62,4 +62,25 @@ static class DisplayMenu
                 })
         );
     }
+
+    public static MenuEnums.SendEmail SendEmail()
+    {
+        return AnsiConsole.Prompt(
+            new SelectionPrompt<MenuEnums.SendEmail>()
+                .Title("[bold grey]Select[/]")
+                .MoreChoicesText("[grey](Move up and down to reveal more options)[/]")
+                .AddChoices(Enum.GetValues<MenuEnums.SendEmail>())
+                .UseConverter( (input) => {
+                    return input switch 
+                    {
+                        MenuEnums.SendEmail.SENDEMAIL => "Send email",
+                        MenuEnums.SendEmail.ADDUSERDATA => "Add new user",
+                        MenuEnums.SendEmail.UPDATEUSERDATA => "Update user",
+                        MenuEnums.SendEmail.DELETEUSERDATA => "Delete user",
+                        MenuEnums.SendEmail.BACK => "Back",
+                        _ => input.ToString() // Will be an error.
+                    };
+                })
+        );
+    }
 }

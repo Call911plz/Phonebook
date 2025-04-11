@@ -3,7 +3,7 @@
 
 using Microsoft.EntityFrameworkCore;
 
-class EmailManager : DatabaseManagerBase
+class UserDataManager : DatabaseManagerBase
 {
     public async Task CreateEntityAsync(UserData userData)
     {

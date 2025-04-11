@@ -28,6 +28,8 @@ class MainMenuController : MenuControllerBase
                 await categoryController.StartAsync();
                 break;
             case MenuEnums.Main.SENDEMAIL:
+                SendEmailMenuController sendEmailMenuController = new();
+                await sendEmailMenuController.StartAsync();
                 break;
             case MenuEnums.Main.SENDSMS:
                 break;

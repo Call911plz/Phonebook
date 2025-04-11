@@ -7,6 +7,6 @@ public class UserData : Entity
 
     public override string ToString()
     {
-        return Id.ToString() + "\t" + DisplayName + "\t" + Email + "\t" + EmailPassword;
+        return DisplayName + "\t" + Email + "\t" + EmailPassword;
     }
 }
