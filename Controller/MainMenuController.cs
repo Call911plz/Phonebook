@@ -1,6 +1,6 @@
 using Spectre.Console;
 
-class MainMenuController : ControllerBase
+class MainMenuController : MenuControllerBase
 {
     protected override Task OnStart()
     {

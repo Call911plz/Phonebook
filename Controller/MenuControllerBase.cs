@@ -1,7 +1,7 @@
 
 using Spectre.Console;
 
-class ControllerBase
+class MenuControllerBase
 {
 
     public async Task StartAsync()

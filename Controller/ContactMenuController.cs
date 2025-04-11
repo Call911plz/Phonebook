@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 using System.Threading.Tasks;
 using Spectre.Console;
 
-class ContactController : ControllerBase
+class ContactController : MenuControllerBase
 {
     ContactDatabaseManager contactDatabaseManager = new();
     protected override async Task<bool> HandleUserInput()

@@ -1,7 +1,7 @@
 
 
 
-class CategoryController : ControllerBase
+class CategoryController : MenuControllerBase
 {
     CategoryDatabaseManager categoryDatabaseManager = new();
     protected override async Task<bool> HandleUserInput()
