@@ -31,8 +31,6 @@ class MainMenuController : MenuControllerBase
                 SendEmailMenuController sendEmailMenuController = new();
                 await sendEmailMenuController.StartAsync();
                 break;
-            case MenuEnums.Main.SENDSMS:
-                break;
             case MenuEnums.Main.EXIT:
                 return true;
         }

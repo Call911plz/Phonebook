@@ -42,7 +42,7 @@ public static class GetData
         ); 
         if (unparsedEmail == null)
             return null;
-        if (!MailAddress.TryCreate(unparsedEmail, out var parsedEmail))
+        if (MailAddress.TryCreate(unparsedEmail, out var parsedEmail))
             return parsedEmail.ToString();
         return null;
     }
@@ -154,7 +154,7 @@ public static class GetData
     private static string UserDataEmailPassword(string existingPassword = "")
     {
         return AnsiConsole.Prompt(
-            new TextPrompt<string>("[bold grey]Enter a your email's password:[/]")
+            new TextPrompt<string>("[bold grey]Enter a your email's password (see https://support.google.com/accounts/answer/185833?hl=en):[/]")
                 .DefaultValue(existingPassword)
         ); 
     }
@@ -178,6 +178,19 @@ public static class GetData
         });
         return AnsiConsole.Prompt(
             prompt
+        );
+    }
+
+    public static void WriteEmail(out string subject, out string body)
+    {
+        subject = AnsiConsole.Prompt(
+            new TextPrompt<string>("Subject:")
+                .AllowEmpty()
+        );
+
+        body = AnsiConsole.Prompt(
+            new TextPrompt<string>("Body:")
+                .AllowEmpty()
         );
     }
 }

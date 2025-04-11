@@ -8,26 +8,9 @@ class Program
 {
     static async Task Main(string[] args)
     {
-        // // Start program
-        // MainMenuController mainMenuController = new();
-        // await mainMenuController.StartAsync();    
-
-
-        // Email sending testing
-        using var db = new DatabaseContext();
-        UserData currentUser = await db.UserDatas.FirstAsync();
-        Contact contact = new Contact{
-            
-        };
-
-        var smtpClient = new SmtpClient("smtp.gmail.com")
-        {
-            Port = 587,
-            Credentials = new NetworkCredential(currentUser.Email, currentUser.EmailPassword),
-            EnableSsl = true,
-        };
-
-        
+        // Start program
+        MainMenuController mainMenuController = new();
+        await mainMenuController.StartAsync();
     }
 }
 

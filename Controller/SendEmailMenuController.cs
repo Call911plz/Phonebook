@@ -1,10 +1,10 @@
-
-
+using System.Net;
+using System.Net.Mail;
 
 class SendEmailMenuController : MenuControllerBase
 {
     UserDataManager userDataManager = new();
-    UserData currentUser;
+    UserData currentUser = new();
     protected override async Task OnReady()
     {
         var userDatas = userDataManager.GetAllEntity();
@@ -25,7 +25,7 @@ class SendEmailMenuController : MenuControllerBase
         switch (userInput)
         {
             case MenuEnums.SendEmail.SENDEMAIL:
-                await SendEmailAsync();
+                SendEmail();
                 break;
             case MenuEnums.SendEmail.ADDUSERDATA:
                 await AddUserDataAsync();
@@ -42,9 +42,27 @@ class SendEmailMenuController : MenuControllerBase
         return false;
     }
 
-    private async Task SendEmailAsync()
+    private void SendEmail()
     {
+        using var db = new DatabaseContext();
+
+        // Display contact to send an email to
+        ContactDatabaseManager contactDatabaseManager = new();
+        List<Contact> contacts = contactDatabaseManager.GetAllEntity();
+
+        DisplayData.ContactTable(contacts);
         
+        Contact contact = GetData.EntityFromList(contacts);
+
+        // Send email
+        var smtpClient = new SmtpClient("smtp.gmail.com")
+        {
+            Port = 587,
+            Credentials = new NetworkCredential(currentUser.Email, currentUser.EmailPassword),
+            EnableSsl = true,
+        };
+        GetData.WriteEmail(out var subject, out var body);
+        smtpClient.Send(currentUser.Email, contact.Email, subject, body);
     }
 
     private async Task AddUserDataAsync()
