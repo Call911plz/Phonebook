@@ -6,6 +6,7 @@ public class DatabaseContext : DbContext
 {
     public DbSet<Contact> Contacts { get; set; }
     public DbSet<Category> Categories { get; set; }
+    public DbSet<UserData> UserDatas { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder options)
     {

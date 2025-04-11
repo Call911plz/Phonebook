@@ -4,8 +4,11 @@ class Program
 {
     static async Task Main(string[] args)
     {
-        MainMenuController mainMenuController = new();
-        await mainMenuController.StartAsync();
+        //// Start program
+        // MainMenuController mainMenuController = new();
+        // await mainMenuController.StartAsync();
+
+        
     }
 }
 
