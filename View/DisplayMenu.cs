@@ -14,8 +14,7 @@ static class DisplayMenu
                     {
                         MenuEnums.Main.MANAGECONTACTS => "Manage contacts",
                         MenuEnums.Main.MANAGECATEGORY => "Manage category",
-                        MenuEnums.Main.SENDEMAIL => "Send Email",
-                        MenuEnums.Main.SENDSMS => "Send SMS",
+                        MenuEnums.Main.SENDEMAIL => "Send message",
                         MenuEnums.Main.EXIT => "Exit",
                         _ => input.ToString() // Will be an error.
                     };
@@ -74,6 +73,7 @@ static class DisplayMenu
                     return input switch 
                     {
                         MenuEnums.SendEmail.SENDEMAIL => "Send email",
+                        MenuEnums.SendEmail.SENDSMS => "Send sms",
                         MenuEnums.SendEmail.ADDUSERDATA => "Add new user",
                         MenuEnums.SendEmail.UPDATEUSERDATA => "Update user",
                         MenuEnums.SendEmail.DELETEUSERDATA => "Delete user",

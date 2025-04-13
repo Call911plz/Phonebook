@@ -1,5 +1,6 @@
 using System.Net;
 using System.Net.Mail;
+using System.Threading.Tasks;
 
 class SendEmailMenuController : MenuControllerBase
 {
@@ -25,7 +26,10 @@ class SendEmailMenuController : MenuControllerBase
         switch (userInput)
         {
             case MenuEnums.SendEmail.SENDEMAIL:
-                SendEmail();
+                await SendEmailAsync();
+                break;
+            case MenuEnums.SendEmail.SENDSMS:
+                await SendSmsAsync();
                 break;
             case MenuEnums.SendEmail.ADDUSERDATA:
                 await AddUserDataAsync();
@@ -41,17 +45,49 @@ class SendEmailMenuController : MenuControllerBase
         }
         return false;
     }
-
-    private void SendEmail()
+    // TODO: check for provider
+    // add check get where has email
+    // add get where has service provider
+    private async Task SendSmsAsync()
     {
         using var db = new DatabaseContext();
 
         // Display contact to send an email to
         ContactDatabaseManager contactDatabaseManager = new();
-        List<Contact> contacts = contactDatabaseManager.GetAllEntity();
+        List<Contact> contacts = await contactDatabaseManager.GetAllEntityBySearchAsync(
+            contact => contact.PhoneNumber != null
+        );
 
         DisplayData.ContactTable(contacts);
-        
+
+        Contact contact = GetData.EntityFromList(contacts);
+
+        // Adjust email to send via email to sms service
+        contact.Email = contact.PhoneNumber + "@" + CarrierEmailDomains.domains[contact.ServiceProvider];
+
+        // Send email
+        var smtpClient = new SmtpClient("smtp.gmail.com")
+        {
+            Port = 587,
+            Credentials = new NetworkCredential(currentUser.Email, currentUser.EmailPassword),
+            EnableSsl = true,
+        };
+        GetData.WriteEmail(out var subject, out var body);
+        smtpClient.Send(currentUser.Email, contact.Email, subject, body);
+    }
+
+    private async Task SendEmailAsync()
+    {
+        using var db = new DatabaseContext();
+
+        // Display contact to send an email to
+        ContactDatabaseManager contactDatabaseManager = new();
+        List<Contact> contacts = await contactDatabaseManager.GetAllEntityBySearchAsync(
+            contact => contact.Email != null
+        );
+
+        DisplayData.ContactTable(contacts);
+
         Contact contact = GetData.EntityFromList(contacts);
 
         // Send email

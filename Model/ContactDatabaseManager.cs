@@ -1,4 +1,5 @@
 
+using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 
 class ContactDatabaseManager : DatabaseManagerBase
@@ -14,6 +15,16 @@ class ContactDatabaseManager : DatabaseManagerBase
     {
         using var db = new DatabaseContext();
         return db.Contacts.ToList();
+    }
+
+    public async Task<List<Contact>> GetAllEntityBySearchAsync(Expression<Func<Contact, bool>> searchFunction)
+    {
+        using var db = new DatabaseContext();
+
+        var contacts = await db.Contacts
+            .Where(searchFunction)
+            .ToListAsync();
+        return contacts;
     }
 
     public async Task UpdateEntityAsync(Contact updatedContact)
