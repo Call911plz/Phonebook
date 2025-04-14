@@ -22,8 +22,8 @@ User can send email and SMS (provided their carrier provides an email to sms gat
 
 
 ## Additional challenges
-- [ ] Create a functionality that allows users to add the contact's e-mail address and send an e-mail message from the app.
+- [X] Create a functionality that allows users to add the contact's e-mail address and send an e-mail message from the app.
 
 - [X] Expand the app by creating categories of contacts (i.e. Family, Friends, Work, etc).
 
-- [ ] What if you want to send not only e-mails but SMS?
+- [X] What if you want to send not only e-mails but SMS?

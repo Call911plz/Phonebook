@@ -6,6 +6,8 @@ class SendEmailMenuController : MenuControllerBase
 {
     UserDataManager userDataManager = new();
     UserData currentUser = new();
+
+    // Checks for users to access information from before procceeding 
     protected override async Task OnReady()
     {
         var userDatas = userDataManager.GetAllEntity();
@@ -45,9 +47,6 @@ class SendEmailMenuController : MenuControllerBase
         }
         return false;
     }
-    // TODO: check for provider
-    // add check get where has email
-    // add get where has service provider
     private async Task SendSmsAsync()
     {
         using var db = new DatabaseContext();
