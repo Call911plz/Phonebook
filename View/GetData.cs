@@ -3,7 +3,7 @@ using Spectre.Console;
 
 public static class GetData
 {
-    public static Contact NewContact(Contact? existingContact = null)
+    public static Contact NewContact(Contact? existingContact = null, List<Category>? categories = null)
     {
         existingContact ??= Contact.Default;
 
@@ -14,7 +14,7 @@ public static class GetData
             Email = ContactEmail(existingContact.Email),
             PhoneNumber = ContactPhoneNumber(existingContact.PhoneNumber),
             ServiceProvider = existingContact.ServiceProvider ?? null,
-            CategoryName = ContactCategory(existingContact.CategoryName),
+            CategoryName = ContactCategory(categories, existingContact.CategoryName),
         };
         return contact;
     }
@@ -83,10 +83,26 @@ public static class GetData
         
         return true;
     }
-    static string? ContactCategory(string? existingName = null) 
+    static string? ContactCategory(List<Category>? categories, string? existingCategory = null) 
     { 
-        // TODO: implement selection/multi-selection when category implemented
-        return null; 
+        if (categories == null)
+            return null;
+        
+        SelectionPrompt<Category> prompt = new();
+
+        prompt.Title("[bold grey]Select category to add to[/]");
+        prompt.AddChoices(categories);
+        prompt.AddChoice(new Category(){ Name = "None" });
+        prompt.UseConverter(input => {
+            return input.Name;
+        });
+        
+        string category = AnsiConsole.Prompt(prompt).Name;
+
+        if (category == "None")
+            return null;
+
+        return category; 
     }
 
 

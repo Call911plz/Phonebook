@@ -6,6 +6,7 @@ using Spectre.Console;
 
 class ContactController : MenuControllerBase
 {
+    CategoryDatabaseManager categoryDatabaseManager = new();
     ContactDatabaseManager contactDatabaseManager = new();
     protected override async Task<bool> HandleUserInput()
     {
@@ -34,7 +35,11 @@ class ContactController : MenuControllerBase
     private async Task AddContactAsync()
     {
         AnsiConsole.MarkupLine("[bold grey]Enter contact's information. Information can be left blank [/]");
-        Contact contact = GetData.NewContact();
+
+        Contact contact = GetData.NewContact(
+            categories: categoryDatabaseManager.GetAllEntity()
+        );
+
         contact.ServiceProvider = await GetPhoneNumberCarrierAsync(contact.PhoneNumber);
         await contactDatabaseManager.CreateEntityAsync(contact);
     }
@@ -62,7 +67,11 @@ class ContactController : MenuControllerBase
         Contact oldContact = GetData.EntityFromList(oldContacts);
 
         // Updating contact with new information
-        Contact newContact = GetData.NewContact(oldContact);
+        Contact newContact = GetData.NewContact(
+            existingContact: oldContact,
+            categories: categoryDatabaseManager.GetAllEntity()
+        );
+        
         if (oldContact.PhoneNumber != newContact.PhoneNumber)
             newContact.ServiceProvider = await GetPhoneNumberCarrierAsync(newContact.PhoneNumber);
 
