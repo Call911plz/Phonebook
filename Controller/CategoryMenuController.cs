@@ -1,6 +1,4 @@
 
-
-
 class CategoryController : MenuControllerBase
 {
     ContactDatabaseManager contactDatabaseManager = new();

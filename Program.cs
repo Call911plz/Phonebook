@@ -1,9 +1,4 @@
-﻿using System.Net;
-using System.Net.Mail;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-
-namespace Phonebook;
+﻿namespace Phonebook;
 
 class Program
 {
@@ -17,6 +12,6 @@ class Program
 
 public class TwilioAPI
 {
-    public static string Key = null;
-    public static string PassWord = null;
+    public static string Key;
+    public static string PassWord;
 }

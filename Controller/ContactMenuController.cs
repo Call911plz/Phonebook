@@ -1,10 +1,7 @@
 using Twilio;
 using Twilio.Rest.Lookups.V2;
 using Newtonsoft.Json;
-using System.Threading.Tasks;
 using Spectre.Console;
-using System.Configuration;
-using System.Collections.Specialized;
 using Phonebook;
 
 
