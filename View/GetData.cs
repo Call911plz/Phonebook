@@ -14,7 +14,7 @@ public static class GetData
             Email = ContactEmail(existingContact.Email),
             PhoneNumber = ContactPhoneNumber(existingContact.PhoneNumber),
             ServiceProvider = existingContact.ServiceProvider ?? null,
-            CategoryName = ContactCategory(categories, existingContact.CategoryName),
+            CategoryName = ContactCategory(categories),
         };
         return contact;
     }
@@ -83,7 +83,7 @@ public static class GetData
         
         return true;
     }
-    static string? ContactCategory(List<Category>? categories, string? existingCategory = null) 
+    static string? ContactCategory(List<Category>? categories) 
     { 
         if (categories == null)
             return null;
