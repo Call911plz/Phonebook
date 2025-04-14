@@ -4,7 +4,7 @@ information of a person. Contacts can be assigned categories which can similarly
 
 User can send email and SMS (provided their carrier provides an email to sms gateway) of the contact.
 
-
+To make use of the sms functionality, a Twilio api key is necessary in the config file
 # Requirements
 - [X] This is an application where you should record contacts with their phone numbers.
 

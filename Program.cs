@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Net.Mail;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Phonebook;
 
@@ -12,4 +13,10 @@ class Program
         MainMenuController mainMenuController = new();
         await mainMenuController.StartAsync();
     }
+}
+
+public class TwilioAPI
+{
+    public static string Key = "";
+    public static string PassWord = "";
 }

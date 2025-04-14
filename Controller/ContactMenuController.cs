@@ -3,6 +3,10 @@ using Twilio.Rest.Lookups.V2;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
 using Spectre.Console;
+using System.Configuration;
+using System.Collections.Specialized;
+using Phonebook;
+
 
 class ContactController : MenuControllerBase
 {
@@ -88,7 +92,7 @@ class ContactController : MenuControllerBase
     static async Task<string?> GetPhoneNumberCarrierAsync(string? number)
     {
         // Accessing phone carrier api
-        TwilioClient.Init("", "");
+        TwilioClient.Init(TwilioAPI.Key, TwilioAPI.PassWord);
         var phoneNumber = await PhoneNumberResource.FetchAsync
         (
             pathPhoneNumber: number, 
