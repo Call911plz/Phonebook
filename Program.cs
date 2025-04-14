@@ -17,6 +17,6 @@ class Program
 
 public class TwilioAPI
 {
-    public static string Key = "";
-    public static string PassWord = "";
+    public static string Key = null;
+    public static string PassWord = null;
 }
