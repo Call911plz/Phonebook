@@ -91,6 +91,10 @@ class ContactController : MenuControllerBase
 
     static async Task<string?> GetPhoneNumberCarrierAsync(string? number)
     {
+        // If no api info entered, automatically set to null
+        if (TwilioAPI.Key == null || TwilioAPI.PassWord == null)
+            return null;
+
         // Accessing phone carrier api
         TwilioClient.Init(TwilioAPI.Key, TwilioAPI.PassWord);
         var phoneNumber = await PhoneNumberResource.FetchAsync
