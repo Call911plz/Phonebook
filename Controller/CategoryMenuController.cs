@@ -3,6 +3,7 @@
 
 class CategoryController : MenuControllerBase
 {
+    ContactDatabaseManager contactDatabaseManager = new();
     CategoryDatabaseManager categoryDatabaseManager = new();
     protected override async Task<bool> HandleUserInput()
     {
@@ -54,6 +55,16 @@ class CategoryController : MenuControllerBase
         // Update category information
         Category updatedCategory = GetData.NewCategory(categoryToUpdate);
 
+        // Update contacts that had category
+        List<Contact> contacts = await contactDatabaseManager.GetAllEntityBySearchAsync(
+            contact => contact.CategoryName == categoryToUpdate.Name
+        );
+        foreach(Contact contact in contacts)
+        {
+            contact.CategoryName = updatedCategory.Name;
+            await contactDatabaseManager.UpdateEntityAsync(contact);
+        }
+
         // Send to ef
         await categoryDatabaseManager.UpdateEntityAsync(updatedCategory);
     }
@@ -67,6 +78,16 @@ class CategoryController : MenuControllerBase
 
         // Select Id of category to delete
         Category categoryToDelete = GetData.EntityFromList(categories);
+
+        // Delete contact's category that had old category
+        List<Contact> contacts = await contactDatabaseManager.GetAllEntityBySearchAsync(
+            contact => contact.CategoryName == categoryToDelete.Name
+        );
+        foreach(Contact contact in contacts)
+        {
+            contact.CategoryName = null;
+            await contactDatabaseManager.UpdateEntityAsync(contact);
+        }
 
         // Delete category with ef
         await categoryDatabaseManager.DeleteEntityAsync(categoryToDelete);
